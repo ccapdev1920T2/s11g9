@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>head}}
+</head>
+<body>
+
+    <!-- HEADER MENU -->
+    {{>navbarnone}}
+    <!-- END HEADER MENU -->
+
+	<!-- ABOUT US -->
+	<section id="signup">
+        <div class="signpic"></div>
+        <div class="signtext">
+            <h2 style="color:#dbdbdb; font-size: 24px;">Always for a Just and Free Society</h2><br>
+            <h4 style="color: #dbdbdb; font-size: 16px;">Add to our discussions</h4>
+            <form style="color: #dbdbdb; margin-top: 7vh;" id="create" action="/editpost/{{id}}" method="POST">
+                <label>Discussion Title</label>
+                <input type="text" placeholder="Title (e.g. [Martial Law] Why many people hate Marcos?)" name="dtitle" value="{{title}}">
+                <label>Article</label>
+                <textarea name="darticle" name="newarticle" placeholder="Write your discussion here....">{{postText}}</textarea>
+                <button type="submit" class="logbutton">CONFIRM CHANGES</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>

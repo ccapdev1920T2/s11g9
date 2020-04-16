@@ -165,8 +165,9 @@ app.post('/create_post', function(req,res){
         });
         post.save();
         console.log('Post Added');
+        console.log(count+1);
         let number = count+1;
-        res.redirect('/post/'+ number);
+        res.redirect('/viewall_post/');
     })
 })
 
@@ -206,6 +207,7 @@ app.get('/post/:id', function(req,res){
         } else{
             if(req.user){
                 res.render('post',{
+                    postNumber: posts.postNumber,
                     forumtitle: posts.title,
                     forumdate: posts.postDate,
                     forumauthor: posts.username.username,
@@ -213,6 +215,7 @@ app.get('/post/:id', function(req,res){
                     forumreact: posts.reacts,
                     commentcount: posts.commentNumber,
                     username: req.user.username,
+                    id: posts._id,
                     UserLogged: true,
                     comments: posts.comments
                 });
@@ -225,11 +228,107 @@ app.get('/post/:id', function(req,res){
                     forumpost: posts.postText,
                     forumreact: posts.reacts,
                     commentcount: 2,
+                    id: posts._id,
                     UserLogged: false,
                     comments: posts.comments
                 });
             }
         }
+    })
+})
+
+app.post('/search/:search', function(req,res){
+    var allposts = Post.find({}, function(err,docs){
+        if(err){
+            console.log(err);
+        }
+    })
+
+    allposts.find({title: {$regex: req.params.search, $options: "i"}}, function(err,docs){
+        if(req.user){
+            res.render('viewallpost',{
+                posts: docs,
+                UserLogged: true
+            })
+        }
+        else{
+            res.render('viewallpost',{
+                posts: docs,
+                UserLogged: false
+            })
+        }
+    })
+})
+
+app.post('/comment/:id', function(req,res){
+
+    console.log(req.session.passport.user);
+
+    var objComment = {
+        postNumber: req.params.id,
+        username: req.user.username,
+        commentText: req.body.newcom,
+        reacts: 0
+    };
+
+    Post.findOne({postNumber: req.params.id}, function(err,doc){
+        if(err){
+            console.log(err);
+        }
+        
+        doc.comments.push(objComment);
+        console.log('Comment Posted');
+        doc.save();
+        res.redirect('/post/'+req.params.id);
+    });
+
+})
+
+app.get('/editpost/:id', function(req,res){
+    Post.findOne({_id:req.params.id}, function(err,doc){
+        res.render('editpost',{
+            title: doc.title,
+            postText: doc.postText,
+            id: req.params.id
+        });
+    })
+})
+
+app.post('/editpost/:id', function(req,res){
+    Post.findOneAndUpdate({ _id: req.params.id}, {
+        title: req.body.dtitle,
+        postText: req.body.darticle,
+    }, function(err,found){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('Post Updated');
+            res.redirect('/viewall_post');
+        }
+    })
+})
+
+app.get('/deletepost/:id', function(req,res){
+    Post.findOneAndDelete({postNumber: req.params.id}, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("Post Deleted");
+            res.redirect('/viewall_post');
+        }
+    })
+})
+
+app.get('/deletecomment/:id/:text', function(req,res){
+    Post.findOne({postNumber: req.params.id}, function(err, doc){
+        if(err){
+            console.log(err)
+        }
+        doc.comments.pull({_id: req.params.text});
+        doc.save();
+        res.redirect('/post/'+req.params.id);
     })
 })
 
@@ -261,19 +360,6 @@ app.post('/editprofile', function(req,res){
                 res.redirect('/');
             }
         })
-
-        // var id =  req.session.passport.user;
-        // User.findOne({_id: id}, function(err,found){
-        //     if(err){
-        //         console.log(err);
-        //     }
-        //     else{
-        //         if(req.body.firstName){
-        //             found.firstName = req.body.firstname
-        //         }
-        //         if(req.body.lastname)
-        //     }
-        // })
     //username update on all posts containing previous username
 })
 
@@ -285,6 +371,34 @@ app.get('/adminpromotion', function(req,res){
             res.render('adminpromotion',{
                 users: users
             })
+        }
+    })
+})
+
+app.post('/adminpromotion', function(req,res){
+    User.findOneAndUpdate({username: req.body.admin}, {
+        userType: "Admin"
+    }, function(err,found){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('User is an Admin');
+            res.redirect('/adminpromotion');
+        }
+    })
+})
+
+app.post('/resignadmin', function(req,res){
+    User.findOneAndUpdate({_id: req.session.passport.user}, {
+        userType: "Regular"
+    }, function(err,found){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('User is a Regular');
+            res.redirect('/');
         }
     })
 })

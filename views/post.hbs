@@ -26,7 +26,7 @@
                   </div>
                   <div>
                     {{#ifCond forumauthor username}}
-                    <a href="#">Edit</a> | <a href="#">Delete</a>
+                    <a href="/editpost/{{id}}">Edit</a> | <a href="/deletepost/{{postNumber}}">Delete</a>
                     {{/ifCond}}
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                     {{#if UserLogged}}
                     <div class="comment">
                         <div class="usercomment" style="font-weight: 800;">{{username}}</div>
-                        <form class="newcommentform">
+                        <form class="newcommentform" action="/comment/{{postNumber}}" method="POST">
                             <input type="text" id="newcomment" name="newcom" class="contentcomment" style="width:100%;" placeholder="Write your comment here....">
                             <button type="submit" class="logbutton" style="width: 15%; margin: 0; margin-left:2%;">COMMENT</button>
                         </form>

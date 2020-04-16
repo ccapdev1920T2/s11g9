@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
   const commentSchema = new Schema({
     commentID:{
@@ -21,8 +21,11 @@ var Schema = mongoose.Schema;
         required: [true,'Required']
     },
     reacts:{
-        type: Number
+        type: Number,
+        default: 0,
+        required: [true,'Required']
     }
   });
 
+commentSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Comment',commentSchema);

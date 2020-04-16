@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Add to Discussion</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="dist/slippry.min.js"></script>
-	<link href="css/bootstrap.css" rel="stylesheet" />
-	<link href="color/default.css" rel="stylesheet">
-	<link href="dist/slippry.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+    {{>head}}
 </head>
 <body>
 
@@ -22,7 +14,7 @@
         <div class="signpic"></div>
         <div class="signtext">
             <h2 style="color:#dbdbdb; font-size: 24px;">Always for a Just and Free Society</h2><br>
-            <h4 style="color: #dbdbdb; font-size: 16px;">Add to our discussions and please be patient as the administrator will check this post before posting</h4>
+            <h4 style="color: #dbdbdb; font-size: 16px;">Add to our discussions</h4>
             <form style="color: #dbdbdb; margin-top: 7vh;" id="create" action="/create_post" method="POST">
                 <label>Discussion Title</label>
                 <input type="text" placeholder="Title (e.g. [Martial Law] Why many people hate Marcos?)" name="dtitle">
