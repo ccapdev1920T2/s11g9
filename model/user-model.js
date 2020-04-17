@@ -39,6 +39,9 @@ userSchema.plugin(passportLocalMongoose);
 userSchema.methods.validPassword = function( pwd ) {
     return ( this.password === pwd );
 };
+userSchema.methods.validVerified = function( ver ) {
+    return (this.isVerified === ver)
+}
 
 
 module.exports = mongoose.model('User', userSchema);

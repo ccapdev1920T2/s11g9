@@ -48,12 +48,15 @@ passport.use(new LocalStrategy(
             console.log('Incorrect Password');
             return done(null, false, { message: 'Incorrect password.' });
           }
+          if(!user.isVerified){
+            console.log('Not Verified')
+            return done(null, false, {message: 'Not Verified.'});
+          }
           return done(null, user);
         });
     }
 ));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -111,9 +114,7 @@ app.get('/', function(req,res){
 })
 
 app.post('/', function(req,res){
-    console.log('click');
-    console.log(req.body.username);
-    console.log(req.body.password);
+
     passport.authenticate('local')(req, res, function () {
         res.redirect('/');
         console.log('login successful');
@@ -427,15 +428,6 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/confirmation/:token', function(req,res){
-    // req.assert('email', 'Email is not valid').isEmail();
-    // req.assert('email', 'Email cannot be blank').notEmpty();
-    // req.assert('token', 'Token cannot be blank').notEmpty();
-    // req.sanitize('email').normalizeEmail({ remove_dots: false });
-
-    // // Check for validation errors    
-    // var errors = req.validationErrors();
-    // if (errors) return res.status(400).send(errors);
-
     // Find a matching token
     Token.findOne({ token: req.params.token }, function (err, token) {
         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
