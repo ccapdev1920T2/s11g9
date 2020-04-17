@@ -237,14 +237,14 @@ app.get('/post/:id', function(req,res){
     })
 })
 
-app.post('/search/:search', function(req,res){
+app.post('/search', function(req,res){
     var allposts = Post.find({}, function(err,docs){
         if(err){
             console.log(err);
         }
     })
 
-    allposts.find({title: {$regex: req.params.search, $options: "i"}}, function(err,docs){
+    allposts.find({title: {$regex: req.body.search, $options: "i"}}, function(err,docs){
         if(req.user){
             res.render('viewallpost',{
                 posts: docs,

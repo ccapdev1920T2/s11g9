@@ -16,9 +16,12 @@
                         <h4 style="color: #992525; width: 60%;"><a href="/create_post">Add a discussion</a></h4>
                     {{/if}}
                 </div>
-                {{!-- <div style="min-width:80%;">
-                    <input type="text" placeholder="  Search posts using tags" id="search" style="width: 100%;height:5vh;font-family: 'Lato';">
-                </div> --}}
+                <div style="min-width:80%;">
+                    <form action="/search" method="POST">
+                        <input type="text" name="search" placeholder="  Search posts using tags" id="search" style="width: 100%;height:5vh;font-family: 'Lato';">
+                        <button type="submit" class="logbutton">Search</button>
+                    </form>
+                </div>
             </div>
             
             
