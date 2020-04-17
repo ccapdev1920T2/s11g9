@@ -28,6 +28,10 @@ const userSchema = new Schema({
         type : String,
         enum: ['Regular', 'Admin'],
         default: 'Regular'
+    },
+    isVerified: { 
+        type: Boolean, 
+        default: false 
     }
   });
 

@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const moment = require('moment')
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
 const app = express()
 const port = 3000
 
@@ -12,7 +14,7 @@ mongoose.Promise = global.Promise;
 
 //Models
 let Post = require('./model/post-model');
-let Comment = require('./model/comment-model');
+let Token = require('./model/token-model');
 let User = require('./model/user-model');
 
 
@@ -128,10 +130,10 @@ app.post('/signup', function(req,res){
  
     // Check if this user already exists
     let user = User.findOne({ email: req.body.email });
-    // if (user) {
-    //     return res.status(400).send('That user already exists!');
-    // } else {
-        // Insert the new user if they do not exist yet
+    if (!user) {
+        return res.status(400).send('That user already exists!');
+    } else {
+
         user = new User({
             firstName: req.body.firstname,
             lastName: req.body.lastname,
@@ -141,10 +143,26 @@ app.post('/signup', function(req,res){
             userType: 'Regular'
         });
         user.save();
-        console.log(user);
-        res.redirect('/');
 
-    // }
+        // Create a verification token for this user
+        var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+        // Save the verification token
+        token.save(function (err) {
+            if (err) { console.log(err) }
+ 
+            // Send the email
+            var transporter = nodemailer.createTransport({ service:'Gmail', auth: { user: "bearapptester@gmail.com", pass: "STDA55_bear" } });
+            var mailOptions = { from: 'bearapptester@gmail.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + 'localhost:3000' + '\/confirmation\/' + token.token + '.\n' };
+            transporter.sendMail(mailOptions, function (err) {
+                if (err) { console.log(err) }
+                else{
+                    console.log('Email has been sent');
+                }
+            });
+        });
+
+        res.redirect('/');
+    }
 
 })
 
@@ -406,6 +424,35 @@ app.post('/resignadmin', function(req,res){
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
+});
+
+app.get('/confirmation/:token', function(req,res){
+    // req.assert('email', 'Email is not valid').isEmail();
+    // req.assert('email', 'Email cannot be blank').notEmpty();
+    // req.assert('token', 'Token cannot be blank').notEmpty();
+    // req.sanitize('email').normalizeEmail({ remove_dots: false });
+
+    // // Check for validation errors    
+    // var errors = req.validationErrors();
+    // if (errors) return res.status(400).send(errors);
+
+    // Find a matching token
+    Token.findOne({ token: req.params.token }, function (err, token) {
+        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+
+        // If we found a token, find a matching user
+        User.findOne({ _id: token._userId}, function (err, user) {
+            if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+            if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+
+            // Verify and save the user
+            user.isVerified = true;
+            user.save(function (err) {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+                res.status(200).send("The account has been verified. Please log in.");
+            });
+        });
+    });
 });
 
 app.listen(port, function(){
