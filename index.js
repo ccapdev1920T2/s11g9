@@ -134,37 +134,37 @@ app.post('/signup', function(req,res){
     let user = User.findOne({ email: req.body.email });
     if (!user) {
         return res.status(400).send('That user already exists!');
-    } else {
-
-        user = new User({
-            firstName: req.body.firstname,
-            lastName: req.body.lastname,
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            userType: 'Regular'
-        });
-        user.save();
-
-        // Create a verification token for this user
-        var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
-        // Save the verification token
-        token.save(function (err) {
-            if (err) { console.log(err) }
- 
-            // Send the email
-            var transporter = nodemailer.createTransport({ service:'Gmail', auth: { user: "bearapptester@gmail.com", pass: "STDA55_bear" } });
-            var mailOptions = { from: 'bearapptester@gmail.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + 'localhost:3000' + '\/confirmation\/' + token.token + '.\n' };
-            transporter.sendMail(mailOptions, function (err) {
-                if (err) { console.log(err) }
-                else{
-                    console.log('Email has been sent');
-                }
-            });
-        });
-
-        res.redirect('/');
     }
+
+    user = new User({
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
+        email: req.body.email,
+        username: req.body.username,
+        password: req.body.password,
+        userType: 'Regular'
+    });
+    user.save();
+    console.log(user);
+
+    // Create a verification token for this user
+    var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+    // Save the verification token
+    token.save(function (err) {
+        if (err) { console.log(err) }
+
+        // Send the email
+        var transporter = nodemailer.createTransport({ service:'Gmail', auth: { user: "bearapptester@gmail.com", pass: "STDA55_bear" } });
+        var mailOptions = { from: 'bearapptester@gmail.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + 'localhost:3000' + '\/confirmation\/' + token.token + '.\n' };
+        transporter.sendMail(mailOptions, function (err) {
+            if (err) { console.log(err) }
+            else{
+                console.log('Email has been sent');
+            }
+        });
+    });
+
+    res.redirect('/');
 
 })
 
@@ -188,23 +188,6 @@ app.post('/create_post', function(req,res){
         console.log('Post Added');
         res.redirect('/viewall_post/');
     })
-
-    // Post.countDocuments({}, function(err,count){
-    //     let post = new Post({
-    //         postNumber: count+1,
-    //         username: req.session.passport.user,
-    //         title: req.body.dtitle,
-    //         postText: req.body.darticle,
-    //         postDate: Date.now(),
-    //         commentNumber: 0,
-    //         reacts: 0,
-    //     });
-    //     post.save();
-    //     console.log('Post Added');
-    //     console.log(count+1);
-    //     let number = count+1;
-    //     res.redirect('/viewall_post/');
-    // })
 })
 
 app.get('/viewall_post', function(req,res){
