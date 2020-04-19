@@ -16,6 +16,7 @@ mongoose.Promise = global.Promise;
 let Post = require('./model/post-model');
 let Token = require('./model/token-model');
 let User = require('./model/user-model');
+let Count = require('./model/count-model');
 
 
 app.set('view engine', 'hbs')
@@ -172,9 +173,10 @@ app.get('/create_post', function(req,res){
 })
 
 app.post('/create_post', function(req,res){
-    Post.countDocuments({}, function(err,count){
+
+    Count.findOneAndUpdate({identity: "counter"},{$inc: {numberPost: 1}},function(err,number){
         let post = new Post({
-            postNumber: count+1,
+            postNumber: number.numberPost+1,
             username: req.session.passport.user,
             title: req.body.dtitle,
             postText: req.body.darticle,
@@ -184,10 +186,25 @@ app.post('/create_post', function(req,res){
         });
         post.save();
         console.log('Post Added');
-        console.log(count+1);
-        let number = count+1;
         res.redirect('/viewall_post/');
     })
+
+    // Post.countDocuments({}, function(err,count){
+    //     let post = new Post({
+    //         postNumber: count+1,
+    //         username: req.session.passport.user,
+    //         title: req.body.dtitle,
+    //         postText: req.body.darticle,
+    //         postDate: Date.now(),
+    //         commentNumber: 0,
+    //         reacts: 0,
+    //     });
+    //     post.save();
+    //     console.log('Post Added');
+    //     console.log(count+1);
+    //     let number = count+1;
+    //     res.redirect('/viewall_post/');
+    // })
 })
 
 app.get('/viewall_post', function(req,res){
