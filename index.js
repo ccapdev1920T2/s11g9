@@ -7,6 +7,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+const Bcrypt = require("bcryptjs");
 const app = express()
 const port = 3000
 
@@ -135,13 +136,14 @@ app.post('/signup', function(req,res){
     if (!user) {
         return res.status(400).send('That user already exists!');
     }
+    let pass = Bcrypt.hashSync(req.body.password,10);
 
     user = new User({
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         email: req.body.email,
         username: req.body.username,
-        password: req.body.password,
+        password: pass,
         userType: 'Regular'
     });
     user.save();
