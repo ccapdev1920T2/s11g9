@@ -292,7 +292,7 @@ app.post('/comment/:id', function(req,res){
         reacts: 0
     };
 
-    Post.findOne({postNumber: req.params.id}, function(err,doc){
+    Post.findOneAndUpdate({postNumber: req.params.id}, {$inc: {commentNumber: 1}} ,function(err,doc){
         if(err){
             console.log(err);
         }
@@ -343,7 +343,7 @@ app.get('/deletepost/:id', function(req,res){
 })
 
 app.get('/deletecomment/:id/:text', function(req,res){
-    Post.findOne({postNumber: req.params.id}, function(err, doc){
+    Post.findOneAndUpdate({postNumber: req.params.id},{$inc: {commentNumber: -1}} ,function(err, doc){
         if(err){
             console.log(err)
         }
