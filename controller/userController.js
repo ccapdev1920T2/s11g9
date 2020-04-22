@@ -121,8 +121,22 @@ const userController ={
     logout : function(req, res){
         req.logout();
         res.redirect('/');
-    }
+    },
 
+    getUsername: function (req, res) {
+
+        var username = req.query.username;
+        console.log(username);
+        User.findOne({username: username}, 'username', function (err, result) {
+            if(err){
+                console.log('User not found');
+                res.send(false)
+            }
+            else{
+                res.send(true);
+            }
+        });
+    }
 }
 
 module.exports = userController;

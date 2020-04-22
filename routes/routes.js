@@ -59,4 +59,6 @@ app.get('/deletepost/:id',postController.getDeletePost);
 
 app.get('/deletecomment/:id/:text', postController.getDeleteComment);
 
+app.get('/getUsername', userController.getUsername);
+
 module.exports = app;

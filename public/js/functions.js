@@ -21,7 +21,7 @@ $(document).ready(function () {
 
         if(isValidLength) {
             $.get('/getUsername', {username: username}, function (result) {
-                if(result.username != username) {
+                if(result) {
                     if(field.is($('#username')))
                         $('#usernameError').text('');
 
@@ -78,8 +78,10 @@ $(document).ready(function () {
             if(filled && validPassword && validUsername) {
                 $('#submit').prop('disabled', false);
             }
-            else
+            else{
                 $('#submit').prop('disabled', true);
+            }
+                
         });
     }
 
