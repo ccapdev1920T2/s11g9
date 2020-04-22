@@ -126,7 +126,6 @@ const userController ={
     getUsername: function (req, res) {
 
         var username = req.query.username;
-        console.log(username);
         User.findOne({username: username}, 'username', function (err, result) {
             if(err){
                 console.log('User not found');
