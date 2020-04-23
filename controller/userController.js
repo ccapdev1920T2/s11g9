@@ -132,7 +132,12 @@ const userController ={
                 res.send(false)
             }
             else{
-                res.send(true);
+                if(result){
+                    res.send(false);
+                }
+                else{
+                    res.send(true);
+                }
             }
         });
     }
