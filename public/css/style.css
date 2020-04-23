@@ -575,6 +575,9 @@ form{
   color: #dbdbdb;
   width: 100%;
 }
+.logbutton:disabled{
+  background-color: #000;
+}
 
 section#signup{
   background-color: #e6e6e6;
