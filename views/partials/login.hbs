@@ -1,3 +1,11 @@
+<head>
+    {{>head}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/validator.min.js" type="text/javascript"></script>
+    <script src="/js/login.js" type="text/javascript"></script>
+</head>
+
 <section id="login">
     <div class="title" style="padding-bottom: 10vh">
         <h2 style="color:#2f2f2f; font-size: 40px;">Login</h2>
@@ -5,10 +13,16 @@
     </div>
     <div>
         <form action="/" method="POST">
-            <label style="font-family: 'Lato';font-weight: 400;">Username: </label> <input type="text" placeholder="Username" name="username">
+            <label style="font-family: 'Lato';font-weight: 400;">Username: </label> 
+            <input type="text" name="username" id="username" class="field" placeholder="Username" required>
+            <p id="usernameError" class="error">{{usernameError}}</p>
             <label></label>
-            <label style="font-family: 'Lato';font-weight: 400;">Password: </label> <input type="password" placeholder="Password" name="password">
-            <button type="submit" class="logbutton">LOGIN</button>
+
+            <label style="font-family: 'Lato';font-weight: 400;">Password: </label>
+            <input type="password" name="password" id="pw" class="field" placeholder="Password">
+            <p id="pwError" class="error">{{pwError}}</p>
+
+            <input type="submit" id="submit" value="LOGIN" class="logbutton" disabled>
             <label style="font-family: 'Lato'; font-weight: 400;text-align: center;"> OR </label>
         </form>
         <a href="signup"><button class="logbutton">SIGNUP</button></a>
