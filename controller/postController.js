@@ -10,22 +10,6 @@ const postController ={
     },
 
     postCreatePost : function(req,res){
-        // Post.countDocuments({}, function(err,count){
-        //     let post = new Post({
-        //         postNumber: count+1,
-        //         username: req.session.passport.user,
-        //         title: req.body.dtitle,
-        //         postText: req.body.darticle,
-        //         postDate: Date.now(),
-        //         commentNumber: 0,
-        //         reacts: 0,
-        //     });
-        //     post.save();
-        //     console.log('Post Added');
-        //     let number = count+1;
-        //     res.redirect('/post/'+ number);
-        // })
-
         Count.findOneAndUpdate({identity: "counter"},{$inc: {numberPost: 1}},function(err,number){
             let post = new Post({
                 postNumber: number.numberPost+1,
@@ -133,8 +117,7 @@ const postController ={
         var objComment = {
             postNumber: req.params.id,
             username: req.user.username,
-            commentText: req.body.newcom,
-            reacts: 0
+            commentText: req.body.newcom
         };
     
         Post.findOneAndUpdate({postNumber: req.params.id}, {$inc: {commentNumber: 1}} ,function(err,doc){
@@ -193,6 +176,7 @@ const postController ={
                 console.log(err)
             }
             doc.comments.pull({_id: req.params.text});
+            console.log('Comment Deleted');
             doc.save();
             res.redirect('/post/'+req.params.id);
         })

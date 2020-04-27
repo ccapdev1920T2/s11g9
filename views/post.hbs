@@ -19,11 +19,11 @@
             <div class="content">
                 <div class="ogpost">
                   {{forumpost}}
-                  <div class="vote circle">
+                  {{!-- <div class="vote circle">
                     <div class="increment up"><img src="https://img.icons8.com/material-rounded/24/2ecc71/filled-like.png"/></div>
                     <div class="count">{{forumreact}}</div>
                     <div class="increment down"><img src="https://img.icons8.com/material-rounded/24/e74c3c/dislike.png"/></div>
-                  </div>
+                  </div> --}}
                   <div>
                     {{#ifCond forumauthor username}}
                     <a href="/editpost/{{id}}">Edit</a> | <a href="/deletepost/{{postNumber}}">Delete</a>
