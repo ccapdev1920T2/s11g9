@@ -33,8 +33,11 @@
                 <p id="emailError" class="error">{{emailError}}</p>
 
                 <label>Password* (4-32 characters)</label>
-                <input type="password" placeholder="Password" name="password" id='pw' value="{{password}}">
+                <input type="password" placeholder="Password" name="password" id='pw'>
                 <p id="pwError" class="error">{{pwError}}</p>
+
+                <label>Confirm Password* (4-32 characters)</label>
+                <input type="password" placeholder="Password" name="cpassword" id='cpw'>
 
                 <input type="submit" id="submit" value="CONFIRM CHANGES" class="logbutton" disabled>
             </form>

@@ -1,4 +1,5 @@
 const passport = require('passport');
+const Bcrypt = require("bcryptjs");
 
 const User = require('../model/user-model.js');
 const Post = require('../model/post-model.js');
@@ -35,12 +36,13 @@ const userController ={
         res.render('editprofile',{
             firstName: req.user.firstName,
             lastName: req.user.lastName,
-            email: req.user.email,
-            password: req.user.password
+            email: req.user.email
         })
     },
 
     postEditProfile : function(req,res){
+
+        let pass = Bcrypt.hashSync(req.body.password,10)
 
         User.findOneAndUpdate({_id: req.session.passport.user},{
                 _id: req.session.passport.user,
@@ -48,7 +50,7 @@ const userController ={
                 lastName: req.body.lastname,
                 email: req.body.email,
                 username: req.user.username,
-                password: req.body.password,
+                password: pass,
                 userType: req.user.userType,
         },{upsert:true, new:true}, function(err, found){
             if(err){
