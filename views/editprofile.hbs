@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     {{>head}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/validator.min.js" type="text/javascript"></script>
+    <script src="/js/profile.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -17,14 +21,22 @@
             <h4 style="color: #dbdbdb; font-size: 16px;">Edit your profile details here</h4>
             <form style="color: #dbdbdb; margin-top: 7vh;" id="sign" action="/editprofile" method="POST">
                 <label>First Name*</label>
-                <input type="text" placeholder="First Name" name="firstname" value="{{firstName}}">
+                <input type="text" placeholder="First Name" name="firstname" id='fName'value="{{firstName}}">
+                <p id="fNameError" class="error">{{fNameError}}</p>
+
                 <label>Last Name*</label>
-                <input type="text" placeholder="Last Name" name="lastname" value="{{lastName}}">
+                <input type="text" placeholder="Last Name" name="lastname" id='lName'value="{{lastName}}">
+                <p id="lNameError" class="error">{{lNameError}}</p>
+
                 <label>Email*</label>
-                <input type="email" placeholder="*@dlsu.edu.ph" name="email" value="{{email}}">
+                <input type="email" placeholder="*@dlsu.edu.ph" name="email" id='email'value="{{email}}">
+                <p id="emailError" class="error">{{emailError}}</p>
+
                 <label>Password* (4-32 characters)</label>
-                <input type="password" placeholder="Password" name="password" value="{{password}}">
-                <button type="submit" class="logbutton">CONFIRM CHANGES</button>
+                <input type="password" placeholder="Password" name="password" id='pw' value="{{password}}">
+                <p id="pwError" class="error">{{pwError}}</p>
+
+                <input type="submit" id="submit" value="CONFIRM CHANGES" class="logbutton" disabled>
             </form>
         </div>
     </section>

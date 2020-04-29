@@ -2,11 +2,11 @@
 <div class="comment">
     <div class="usercomment" style="font-weight: 800;">
         {{this.username}}
-        <div class="vote circle">
+        {{!-- <div class="vote circle">
             <div class="increment up"><img src="https://img.icons8.com/material-rounded/24/2ecc71/filled-like.png"/></div>
                     <div class="count">{{this.reacts}}</div>
                     <div class="increment down"><img src="https://img.icons8.com/material-rounded/24/e74c3c/dislike.png"/></div>
-        </div>
+        </div> --}}
         <div>
             {{#ifCond this.username @root.username }}
                 <a href="#" style="font-weight: 400;">Edit</a> | <a href="/deletecomment/{{postNumber}}/{{this._id}}" style="font-weight: 400;">Delete</a>

@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     {{>head}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/validator.min.js" type="text/javascript"></script>
+    <script src="/js/postvalid.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -17,10 +20,12 @@
             <h4 style="color: #dbdbdb; font-size: 16px;">Add to our discussions</h4>
             <form style="color: #dbdbdb; margin-top: 7vh;" id="create" action="/editpost/{{id}}" method="POST">
                 <label>Discussion Title</label>
-                <input type="text" placeholder="Title (e.g. [Martial Law] Why many people hate Marcos?)" name="dtitle" value="{{title}}">
+                <input type="text" placeholder="Title (e.g. [Martial Law] Why many people hate Marcos?)" id="title" name="dtitle" value="{{title}}">
+                <p id="titleError" class="error">{{titleError}}</p>
                 <label>Article</label>
-                <textarea name="darticle" name="newarticle" placeholder="Write your discussion here....">{{postText}}</textarea>
-                <button type="submit" class="logbutton">CONFIRM CHANGES</button>
+                <textarea name="darticle" name="newarticle" id="article" placeholder="Write your discussion here....">{{postText}}</textarea>
+                <p id="articleError" class="error">{{articleError}}</p>
+                <input type="submit" id="submit" value="CONFIRM CHANGES" class="logbutton" disabled>
             </form>
         </div>
     </section>
