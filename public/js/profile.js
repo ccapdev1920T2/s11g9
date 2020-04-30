@@ -37,7 +37,7 @@ $(document).ready(function () {
     function isValidCPass(field) {
         var validCPass = false;
         
-        if(field == document.getElementById('pw').value) {
+        if(document.getElementById('cpw').value == document.getElementById('pw').value) {
             validCpass = true;
         } else {
             if(field.is($('#cpw')))
