@@ -34,17 +34,15 @@ $(document).ready(function () {
         return validPassword;
     }
 
-    function isValidCPass(field) {
-        var validCPass = false;
-        
-        if(document.getElementById('cpw').value == document.getElementById('pw').value) {
-            validCpass = true;
-        } else {
+    function isValidCPass(field, callback) {
+        if(document.getElementById('cpw').value != document.getElementById('pw').value) {
             if(field.is($('#cpw')))
                 $('#cpwError').text('Passwords do not match.');
+        } else {
+            return callback(true);
         }
 
-        return validCPass;
+        return callback(false);
     }
 
     function validateField(field, fieldName, error) {
@@ -60,14 +58,15 @@ $(document).ready(function () {
 
         var filled = isFilled();
         var validPassword = isValidPassword(field);
-        var validConfirmPassword = isValidCPass(field);
 
-        if (filled && validPassword && validConfirmPassword) {
-            $('#submit').prop('disabled', false);
-        }
-        else{
-            $('#submit').prop('disabled', true);
-        }
+        isValidCPass(field, function(validConfirmPassword) {
+            if (filled && validPassword && validConfirmPassword) {
+                $('#submit').prop('disabled', false);
+            }
+            else{
+                $('#submit').prop('disabled', true);
+            }
+        });
     }
 
     $('#fName').keyup(function () {
