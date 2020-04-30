@@ -21,23 +21,24 @@
             <h4 style="color: #dbdbdb; font-size: 16px;">Edit your profile details here</h4>
             <form style="color: #dbdbdb; margin-top: 7vh;" id="sign" action="/editprofile" method="POST">
                 <label>First Name*</label>
-                <input type="text" placeholder="First Name" name="firstname" id='fName'value="{{firstName}}">
+                <input type="text" name="firstname" id='fName' class="field" placeholder="First Name" value="{{firstName}}" required>
                 <p id="fNameError" class="error">{{fNameError}}</p>
 
                 <label>Last Name*</label>
-                <input type="text" placeholder="Last Name" name="lastname" id='lName'value="{{lastName}}">
+                <input type="text" name="lastname" id='lName' class="field" placeholder="Last Name" value="{{lastName}}" required>
                 <p id="lNameError" class="error">{{lNameError}}</p>
 
                 <label>Email*</label>
-                <input type="email" placeholder="*@dlsu.edu.ph" name="email" id='email'value="{{email}}">
+                <input type="email" name="email" id='email' class="field" placeholder="*@dlsu.edu.ph" value="{{email}}" required>
                 <p id="emailError" class="error">{{emailError}}</p>
 
                 <label>Password* (4-32 characters)</label>
-                <input type="password" placeholder="Password" name="password" id='pw' value="{{password}}">
+                <input type="password" name="password" id='pw' class="field" placeholder="Password" required>
                 <p id="pwError" class="error">{{pwError}}</p>
 
                 <label>Confirm Password* (4-32 characters)</label>
-                <input type="password" placeholder="Password" name="cpassword" id='cpw'>
+                <input type="password" name="cpassword" id='cpw' class="field" placeholder="Confirm Password" required>
+                <p id="cpwError" class="error">{{cpwError}}</p>
 
                 <input type="submit" id="submit" value="CONFIRM CHANGES" class="logbutton" disabled>
             </form>
