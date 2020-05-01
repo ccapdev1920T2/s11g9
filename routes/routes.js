@@ -61,6 +61,6 @@ app.get('/deletecomment/:id/:text', postController.getDeleteComment);
 
 app.get('/getUsername', userController.getUsername);
 
-app.get('/error/:error', controller.getError);
+app.get('/error', controller.getError);
 
 module.exports = app;

@@ -103,7 +103,7 @@ const userController ={
     },
 
     login : function(req,res){
-        passport.authenticate('local')(req, res, function () {
+        passport.authenticate('local', {failureRedirect: '/error'})(req, res, function () {
             res.redirect('/');
             console.log('login successful');
             console.log(req.session.passport.user);
