@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     {{>head}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/validator.min.js" type="text/javascript"></script>
+    <script src="/js/comment.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -43,8 +47,8 @@
                     <div class="comment">
                         <div class="usercomment" style="font-weight: 800;">{{username}}</div>
                         <form class="newcommentform" action="/comment/{{postNumber}}" method="POST">
-                            <input type="text" id="newcomment" name="newcom" class="contentcomment" style="width:100%;" placeholder="Write your comment here....">
-                            <button type="submit" class="logbutton" style="width: 15%; margin: 0; margin-left:2%;">COMMENT</button>
+                            <input type="text" id="newcomment" name="newcom" class="contentcomment" style="width:100%;" placeholder="Write your comment here...." required>
+                            <input type="submit" id="submit" value="COMMENT" class="logbutton" style="width: 15%; margin: 0; margin-left:2%;" disabled>
                         </form>
                     </div>
                     {{/if}}
