@@ -1,7 +1,7 @@
 const controller = {
     getFavicon: function (req, res) {
         res.status(204);
-    },
+    },  
 
     getError: function(req,res){
         res.render('error', {})
