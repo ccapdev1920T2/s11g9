@@ -19,7 +19,8 @@ const registerController = {
         // Check if this user already exists
         let user = User.findOne({ email: req.body.email });
         if (!user) {
-            return res.status(400).send('That user already exists!');
+            return res.render('error')
+            //return res.status(400).send('That user already exists!');
         }
 
         let pass = Bcrypt.hashSync(req.body.password,10);
@@ -39,16 +40,14 @@ const registerController = {
         var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
         // Save the verification token
         token.save(function (err) {
-            if (err) { 
-                console.log(err) 
-            }
+            if (err) return res.render('error');
             // Send the email
             var transporter = nodemailer.createTransport({ service:'Gmail', auth: { user: "bearapptester@gmail.com", pass: "STDA55_bear" } });
                 
             var mailOptions = { from: 'bearapptester@gmail.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + 'tapat-website.herokuapp.com' + '\/confirmation\/' + token.token + '.\n' };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { 
-                    console.log(err) 
+                    res.render('error')
                 }
                 else{
                     console.log('Email has been sent');
@@ -61,17 +60,21 @@ const registerController = {
     getConfirmation: function(req,res){
         // Find a matching token
         Token.findOne({ token: req.params.token }, function (err, token) {
-            if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+            if (!token) return res.render('error');
+            //res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
     
             // If we found a token, find a matching user
             User.findOne({ _id: token._userId}, function (err, user) {
-                if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
-                if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+                if (!user) return res.render('error');
+                //res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+                if (user.isVerified) return res.render('error');
+                //res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
     
                 // Verify and save the user
                 user.isVerified = true;
                 user.save(function (err) {
-                    if (err) { return res.status(500).send({ msg: err.message }); }
+                    if (err) { return res.render('error')}
+                        //res.status(500).send({ msg: err.message });
                     res.status(200).send("The account has been verified. Please log in.");
                 });
             });

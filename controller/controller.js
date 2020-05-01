@@ -4,9 +4,7 @@ const controller = {
     },
 
     getError: function(req,res){
-        res.render('error', {
-            errormessage: req.params.error
-        })
+        res.render('error', {})
     }
     // getIndex: function (req, res) {
 

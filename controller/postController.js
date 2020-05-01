@@ -53,7 +53,8 @@ const postController ={
         .populate('username')
         .exec(function(err,posts){
             if(err){
-                console.log(err);
+                return res.render('error');
+                // console.log(err);
             } else{
                 if(req.user){
                     res.render('post',{
@@ -90,7 +91,8 @@ const postController ={
     search : function(req,res){
         var allposts = Post.find({}, function(err,docs){
             if(err){
-                console.log(err);
+                return res.render('error');
+                // console.log(err);
             }
         })
     
@@ -122,7 +124,8 @@ const postController ={
     
         Post.findOneAndUpdate({postNumber: req.params.id}, {$inc: {commentNumber: 1}} ,function(err,doc){
             if(err){
-                console.log(err);
+                return res.render('error');
+                // console.log(err);
             }
             
             doc.comments.push(objComment);
@@ -149,7 +152,8 @@ const postController ={
             postText: req.body.darticle,
         }, function(err,found){
             if(err){
-                console.log(err);
+                return res.render('error');
+                // console.log(err);
             }
             else{
                 console.log('Post Updated');
@@ -161,7 +165,8 @@ const postController ={
     getDeletePost: function(req,res){
         Post.findOneAndDelete({postNumber: req.params.id}, function(err){
             if(err){
-                console.log(err);
+                return res.render('error');
+                // console.log(err);
             }
             else{
                 console.log("Post Deleted");
@@ -173,7 +178,8 @@ const postController ={
     getDeleteComment: function(req,res){
         Post.findOneAndUpdate({postNumber: req.params.id},{$inc: {commentNumber: -1}} ,function(err, doc){
             if(err){
-                console.log(err)
+                return res.render('error');
+                // console.log(err)
             }
             doc.comments.pull({_id: req.params.text});
             console.log('Comment Deleted');

@@ -9,7 +9,7 @@ const userController ={
     getUser : function(req,res){
         Post.find({}, function(err, posts){
             if(err){
-                console.log(err);
+                return res.render('error');
             } else{
                 if(req.user){
                     res.render('index',{
@@ -54,7 +54,7 @@ const userController ={
                 userType: req.user.userType,
         },{upsert:true, new:true}, function(err, found){
             if(err){
-                console.log(err);
+                return res.render('error');
             }
             else{
                 console.log('User Updated');
@@ -66,7 +66,7 @@ const userController ={
     getEditAdmin : function(req,res){
         User.find({userType: "Regular"}, function(err, users){
             if(err){
-                console.log(err);
+                return res.render('error');
             } else{
                 res.render('adminpromotion',{
                     users: users
@@ -80,7 +80,7 @@ const userController ={
             userType: "Admin"
         }, function(err,found){
             if(err){
-                console.log(err);
+                return res.render('error');
             }
             else{
                 console.log('User is an Admin');
@@ -93,7 +93,7 @@ const userController ={
             userType: "Regular"
         }, function(err,found){
             if(err){
-                console.log(err);
+                return res.render('error');
             }
             else{
                 console.log('User is a Regular');
@@ -120,8 +120,9 @@ const userController ={
         var username = req.query.username;
         User.findOne({username: username}, 'username', function (err, result) {
             if(err){
-                console.log('User not found');
-                res.send(false)
+                return res.render('error');
+                // console.log('User not found');
+                // res.send(false)
             }
             else{
                 if(result){
