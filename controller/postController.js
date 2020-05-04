@@ -78,7 +78,7 @@ const postController ={
                         forumauthor: posts.username.username,
                         forumpost: posts.postText,
                         forumreact: posts.reacts,
-                        commentcount: 2,
+                        commentcount: posts.commentNumber,
                         id: posts._id,
                         UserLogged: false,
                         comments: posts.comments
