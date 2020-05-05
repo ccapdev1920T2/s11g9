@@ -36,14 +36,14 @@ After verification, login using the username and password you used to register, 
 #### Edit Profile
 Click **EDIT PROFILE** and fill in the necessary information that you would want to change.
 > This feature edits only the **first** and **last name**, as well as the **password**. To the information that you want to maintain, please input your original information or go back to the Home page.
+#### Logout
+Click **LOGOUT**.
 ### Admin User Features
 These features are only applicable to the Admin users.
 #### Promote to Admin
 Click **PROMOTE TO ADMIN** and on the drop-down, select a Regular user to become an Admin User.
 #### Resign as Admin
 Click **PROMOTE TO ADMIN** and at the bottom of the drop-down, click the button labeled **RESIGN AS ADMIN**, making you a Regular user. It will direct you back to the Home page, and the **PROMOTE TO ADMIN** button is gone.
-#### Logout
-Click **LOGOUT**.
 
 ### Forum Features 
 The forum is located above the Login/Profile section, which can be accessed through the navigation bar by clicking **FORUM** or scroll down at the bottom of the home page.
